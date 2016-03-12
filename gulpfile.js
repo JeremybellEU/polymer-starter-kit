@@ -237,6 +237,7 @@ gulp.task('serve', ['styles'], function() {
     }
   });
 
+  gulp.watch(['app/*.html'], reload);
   gulp.watch(['app/**/*.html', '!app/bower_components/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js'], reload);
@@ -264,6 +265,12 @@ gulp.task('serve:dist', ['default'], function() {
     server: dist(),
     middleware: [historyApiFallback()]
   });
+
+  gulp.watch(['app/*.html'], ['default', reload]);
+  gulp.watch(['app/**/*.html', '!app/bower_components/**/*.html'], ['default', reload]);
+  gulp.watch(['app/styles/**/*.css'], ['default', reload]);
+  gulp.watch(['app/scripts/**/*.js'], ['default', reload]);
+  gulp.watch(['app/images/**/*'], ['default', reload]);
 });
 
 // Build production files, the default task
