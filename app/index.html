@@ -66,6 +66,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template is="dom-bind" id="app">
 
+    <carbon-location route="{{route}}"></carbon-location>
+
     <paper-drawer-panel id="paperDrawerPanel" responsive-width="840px">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -115,66 +117,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Content -->
         <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="home">
-              <paper-material elevation="1">
-                <my-greeting class="focus-target" tabindex="-1"></my-greeting>
+          <carbon-route route="{{route}}" pattern="/" active="{{isHomePage}}"></carbon-route>
+          <carbon-route route="{{route}}" pattern="{{baseUrl}}" active="{{isHomePage}}"></carbon-route>
+          <carbon-route route="{{route}}" pattern="/users" active="{{isAllUsersPage}}"></carbon-route>
+          <carbon-route route="{{route}}" pattern="/users/:name" active="{{isUserPage}}" data="{{userData}}"></carbon-route>
+          <carbon-route route="{{route}}" pattern="/contact" active="{{isContactPage}}"></carbon-route>
 
-                <p class="subhead">You now have:</p>
-                <my-list></my-list>
+          <section hidden$="{{!isHomePage}}">
+            <paper-material elevation="1">
+              <my-greeting class="focus-target" tabindex="-1"></my-greeting>
 
-                <p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
-              </paper-material>
+              <p class="subhead">You now have:</p>
+              <my-list></my-list>
 
-              <paper-material elevation="1">
-                <p>This is another card.</p>
-              </paper-material>
+              <p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
+            </paper-material>
 
-              <paper-material elevation="1">
-                <h2 id="license">License</h2>
-                <p>Everything in this repo is BSD style license unless otherwise specified.</p>
-                <p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
-                <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
-                <ul>
-                <li>Redistributions of source code must retain the above copyright
-                notice, this list of conditions and the following disclaimer.</li>
-                <li>Redistributions in binary form must reproduce the above
-                copyright notice, this list of conditions and the following disclaimer
-                in the documentation and/or other materials provided with the
-                distribution.</li>
-                <li>Neither the name of Google Inc. nor the names of its
-                contributors may be used to endorse or promote products derived from
-                this software without specific prior written permission.</li>
-                </ul>
-                <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-              </paper-material>
-            </section>
+            <paper-material elevation="1">
+              <p>This is another card.</p>
+            </paper-material>
 
-            <section data-route="users">
-              <paper-material elevation="1">
-                <h1 class="page-title focus-target" tabindex="-1">Users</h1>
-                <p>This is the users section</p>
-                <a href$="{{baseUrl}}users/Addy">Addy</a><br>
-                <a href$="{{baseUrl}}users/Rob">Rob</a><br>
-                <a href$="{{baseUrl}}users/Chuck">Chuck</a><br>
-                <a href$="{{baseUrl}}users/Sam">Sam</a>
-              </paper-material>
-            </section>
+            <paper-material elevation="1">
+              <h2 id="license">License</h2>
+              <p>Everything in this repo is BSD style license unless otherwise specified.</p>
+              <p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
+              <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+              <ul>
+              <li>Redistributions of source code must retain the above copyright
+              notice, this list of conditions and the following disclaimer.</li>
+              <li>Redistributions in binary form must reproduce the above
+              copyright notice, this list of conditions and the following disclaimer
+              in the documentation and/or other materials provided with the
+              distribution.</li>
+              <li>Neither the name of Google Inc. nor the names of its
+              contributors may be used to endorse or promote products derived from
+              this software without specific prior written permission.</li>
+              </ul>
+              <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+            </paper-material>
+          </section>
 
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h1 class="page-title focus-target" tabindex="-1">User: {{params.name}}</h1>
-                <div>This is {{params.name}}'s section</div>
-              </paper-material>
-            </section>
+          <section hidden$="{{!isAllUsersPage}}">
+            <paper-material elevation="1">
+              <h1 class="page-title focus-target" tabindex="-1">Users</h1>
+              <p>This is the users section</p>
+              <a href$="{{baseUrl}}users/Addy">Addy</a><br>
+              <a href$="{{baseUrl}}users/Rob">Rob</a><br>
+              <a href$="{{baseUrl}}users/Chuck">Chuck</a><br>
+              <a href$="{{baseUrl}}users/Sam">Sam</a>
+            </paper-material>
+          </section>
 
-            <section data-route="contact">
-              <paper-material elevation="1">
-                <h1 class="page-title focus-target" tabindex="-1">Contact</h1>
-                <p>This is the contact section</p>
-              </paper-material>
-            </section>
-          </iron-pages>
+          <section hidden$="{{!isUserPage}}">
+            <paper-material elevation="1">
+              <h1 class="page-title focus-target" tabindex="-1">User: {{userData.name}}</h1>
+              <div>This is {{userData.name}}'s section</div>
+            </paper-material>
+          </section>
+
+          <section hidden$="{{!isContactPage}}">
+            <paper-material elevation="1">
+              <h1 class="page-title focus-target" tabindex="-1">Contact</h1>
+              <p>This is the contact section</p>
+            </paper-material>
+          </section>
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
